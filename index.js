@@ -1,5 +1,5 @@
 const express = require("express");
-const mongoose = require("mongoose");
+const mongoose =require("mongoose");
 const Route =require("./controller/Route");
 const Recipe =require("./controller/RecipeRoute");
 const bodyParser =require("body-parser");

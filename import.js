@@ -1,7 +1,7 @@
 const axios = require('axios');
 const { MongoClient } = require('mongodb');
 
-const MEALDB_API_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+const MEALDB_API_URL = 'https://www.themealdb.com/api/json/v1/1/search.php?f=z';
 const MONGODB_URI = 'mongodb+srv://preethisettu2004:RecipeFinder.@cluster0.f8c64nl.mongodb.net/recipefinder';
 
 async function fetchDataFromMealDB() {
