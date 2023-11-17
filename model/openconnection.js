@@ -13,4 +13,8 @@ function connectToMongoDB() {
   return client;
 }
 
+<<<<<<< HEAD
 module.exports = { client, connectToMongoDB };
+=======
+module.exports = { client, connectToMongoDB };
+>>>>>>> 4940fae8ee2da0af011fa5b513533c24f6f9ce31

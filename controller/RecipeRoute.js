@@ -2,6 +2,7 @@ const express = require("express");
 const RecipeRoute = express.Router();
 const RecipeSchema = require("../model/recipeschema");
 const { client, connectToMongoDB } = require("../model/openconnection");
+<<<<<<< HEAD
 const { default: mongoose } = require("mongoose");
 const db = connectToMongoDB();
 
@@ -21,6 +22,15 @@ RecipeSchema.find((err,data)=>{
     else
         res.json(data);
 })
+=======
+const db = connectToMongoDB();
+
+RecipeRoute.post("/create-recipe", (req, res) => {
+  RecipeSchema.create(req.body, (err, data) => {
+    if (err) return err;
+    else res.json(data);
+  });
+>>>>>>> 4940fae8ee2da0af011fa5b513533c24f6f9ce31
 });
 RecipeRoute.get("/list", async (req, res) => {
   try {
@@ -121,6 +131,7 @@ RecipeRoute.get("/cuisine/:query", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+<<<<<<< HEAD
 RecipeRoute.delete("/delete-recipe/:id", async (req, res) => {
   try {
     const result = await RecipeSchema.findByIdAndRemove(mongoose.Types.ObjectId(req.params.id));
@@ -131,3 +142,7 @@ RecipeRoute.delete("/delete-recipe/:id", async (req, res) => {
   }
 });
 module.exports = RecipeRoute;
+=======
+
+module.exports = RecipeRoute;
+>>>>>>> 4940fae8ee2da0af011fa5b513533c24f6f9ce31
