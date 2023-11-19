@@ -41,19 +41,6 @@ Route.get("/",(req,res)=>{
 });
 
 
-// Sign-out route
-Route.post('/signout', (req, res) => {
-  // Clear the user session or tokens in your MongoDB
-  // For example, if using sessions:
-  req.session.destroy((err) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({ message: 'Error signing out' });
-    }
-    res.json({ message: 'Sign-out successful' });
-  });
-});
-
 
 
 Route.post("/admin-login", async (req, res) => {
