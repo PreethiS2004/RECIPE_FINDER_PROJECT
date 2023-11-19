@@ -5,22 +5,54 @@ const { client, connectToMongoDB } = require("../model/openconnection");
 const { default: mongoose } = require("mongoose");
 const db = connectToMongoDB();
 
-
 RecipeRoute.post("/create-recipe", (req, res) => {
   RecipeSchema.create(req.body, (err, data) => {
     if (err) return err;
     else res.json(data);
-  })
-})
-RecipeRoute.get("/",(req,res)=>{
-  RecipeSchema.find((err,data)=>{
-      if(err)
-          return err;
-      else
-          res.json(data);
-  })
+  });
+});
+RecipeRoute.get("/", (req, res) => {
+  RecipeSchema.find((err, data) => {
+    if (err) return err;
+    else res.json(data);
+  });
 });
 
+RecipeRoute.post("/update-recipe", async (req, res) => {
+  const recipeId = req.body.idMeal;
+  const updatedFields = req.body;
+  console.log(updatedFields);
+  try {
+    const recipesCollection = db.db("recipefinder").collection("recipes");
+
+    // Update the recipe with the new values
+    const result = await recipesCollection.updateOne(
+      { idMeal: recipeId },
+      { $set: updatedFields }
+    );
+
+    console.log(result);
+    if (result.modifiedCount === 1) {
+      // Recipe update successful, return the updated recipe
+      return await recipesCollection.findOne({ idMeal: recipeId });
+    } else {
+      // Recipe not found or update failed, handle accordingly
+      console.error(`Failed to update recipe with ID ${recipeId}`);
+      return null;
+    }
+  } catch (error) {
+    // Handle database or server errors
+    console.error("Error updating recipe:", error);
+    throw error; // You might want to handle or log the error in a different way
+  }
+});
+
+RecipeRoute.get("/", (req, res) => {
+  RecipeSchema.find((err, data) => {
+    if (err) return err;
+    else res.json(data);
+  });
+});
 
 RecipeRoute.get("/list", async (req, res) => {
   try {
@@ -123,7 +155,9 @@ RecipeRoute.get("/cuisine/:query", async (req, res) => {
 });
 RecipeRoute.delete("/delete-recipe/:id", async (req, res) => {
   try {
-    const result = await RecipeSchema.findByIdAndRemove(mongoose.Types.ObjectId(req.params.id));
+    const result = await RecipeSchema.findByIdAndRemove(
+      mongoose.Types.ObjectId(req.params.id)
+    );
     res.json(result);
   } catch (error) {
     console.error("Error deleting recipe:", error);
@@ -131,4 +165,3 @@ RecipeRoute.delete("/delete-recipe/:id", async (req, res) => {
   }
 });
 module.exports = RecipeRoute;
-
