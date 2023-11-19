@@ -1,4 +1,5 @@
 const express = require("express");
+const session = require("express-session");
 const mongoose =require("mongoose");
 const Route =require("./controller/Route");
 const Recipe =require("./controller/RecipeRoute");
@@ -18,7 +19,11 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(cors());
 app.use("/Route",Route);
 app.use("/RecipeRoute",Recipe);
-
+app.use(session({
+    secret: '2023', // Add a secret key for session security
+    resave: false,
+    saveUninitialized: true,
+  }));
 app.listen(4001,()=>{
     console.log("Server started at 4001");
 })
